@@ -1,0 +1,1 @@
+{"version":3,"file":"videos.controller.js","sourceRoot":"","sources":["../../src/videos/videos.controller.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,2CAAkD;AAGlD,IAAa,gBAAgB,GAA7B,MAAa,gBAAgB;IAEzB,KAAK,CAAC,WAAW,CAAC,QAAgB;QAC9B,OAAO,oCAAoC,CAAC;IAChD,CAAC;CACJ,CAAA;AAHG;IADC,IAAA,aAAI,GAAE;;;;mDAGN;AAJQ,gBAAgB;IAD5B,IAAA,mBAAU,EAAC,QAAQ,CAAC;GACR,gBAAgB,CAK5B;AALY,4CAAgB"}
