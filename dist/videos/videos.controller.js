@@ -11,9 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideosController = void 0;
 const common_1 = require("@nestjs/common");
+const axios_1 = require("axios");
 let VideosController = class VideosController {
     async searchVideo(busqueda) {
-        return 'Listado con los videos encontrados';
+        try {
+            let response = await axios_1.default.get('https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=100000&q=Tu Jardin con enanitos&key=AIzaSyAr-PaQAqS4sn2xGIXFpbcgNDr7s3bHL98');
+            console.log(response.data.items);
+        }
+        catch (error) {
+            console.log(error);
+        }
+        return 'Todo ok';
     }
 };
 __decorate([
