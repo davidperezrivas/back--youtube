@@ -11,17 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideosController = void 0;
 const common_1 = require("@nestjs/common");
-const axios_1 = require("axios");
+const videos_service_1 = require("./videos.service");
 let VideosController = class VideosController {
+    constructor(_videosService) {
+        this._videosService = _videosService;
+    }
     async searchVideo(busqueda) {
         try {
-            let response = await axios_1.default.get('https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=100000&q=Tu Jardin con enanitos&key=AIzaSyAr-PaQAqS4sn2xGIXFpbcgNDr7s3bHL98');
-            console.log(response.data.items);
+            let listadoVideo = await this._videosService.obtenerVideo(busqueda);
+            if (listadoVideo.estado != 200)
+                throw new Error('Error en la busqueda del video: ' + busqueda);
+            let arregloVideos = listadoVideo.response.map((video) => {
+                return {
+                    titulo: video.snippet.title,
+                    descripcion: video.snippet.description,
+                    imagen: video.snippet.thumbnails.high.url,
+                };
+            });
+            console.log(arregloVideos);
         }
-        catch (error) {
-            console.log(error);
-        }
-        return 'Todo ok';
+        catch (error) { }
     }
 };
 __decorate([
@@ -31,7 +40,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], VideosController.prototype, "searchVideo", null);
 VideosController = __decorate([
-    (0, common_1.Controller)('videos')
+    (0, common_1.Controller)('videos'),
+    __metadata("design:paramtypes", [videos_service_1.VideosService])
 ], VideosController);
 exports.VideosController = VideosController;
 //# sourceMappingURL=videos.controller.js.map

@@ -8,7 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideosService = void 0;
 const common_1 = require("@nestjs/common");
+const axios_1 = require("axios");
 let VideosService = class VideosService {
+    async obtenerVideo(campo_busqueda) {
+        try {
+            let response = await axios_1.default.get('https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=100000&q=' +
+                campo_busqueda +
+                '&key=AIzaSyAr-PaQAqS4sn2xGIXFpbcgNDr7s3bHL98');
+            return { estado: 200, response: response.data.items };
+        }
+        catch (error) {
+            return { estado: 500, response: error };
+        }
+    }
 };
 VideosService = __decorate([
     (0, common_1.Injectable)()

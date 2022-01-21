@@ -1,18 +1,23 @@
 import { Controller, Post } from '@nestjs/common';
-import axios from 'axios';
+import { VideosService } from './videos.service';
 
 @Controller('videos')
 export class VideosController {
+    constructor(private _videosService: VideosService) {}
     @Post()
     async searchVideo(busqueda: string) {
         try {
-            let response = await axios.get(
-                'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=100000&q=Tu Jardin con enanitos&key=AIzaSyAr-PaQAqS4sn2xGIXFpbcgNDr7s3bHL98',
-            );
-            console.log(response.data.items);
-        } catch (error) {
-            console.log(error);
-        }
-        return 'Todo ok';
+            let listadoVideo = await this._videosService.obtenerVideo(busqueda);
+            if (listadoVideo.estado != 200) throw new Error('Error en la busqueda del video: ' + busqueda);
+
+            let arregloVideos = listadoVideo.response.map((video) => {
+                return {
+                    titulo: video.snippet.title,
+                    descripcion: video.snippet.description,
+                    imagen: video.snippet.thumbnails.high.url,
+                };
+            });
+            console.log(arregloVideos);
+        } catch (error) {}
     }
 }

@@ -1,3 +1,6 @@
+import { VideosService } from './videos.service';
 export declare class VideosController {
-    searchVideo(busqueda: string): Promise<string>;
+    private _videosService;
+    constructor(_videosService: VideosService);
+    searchVideo(busqueda: string): Promise<void>;
 }
