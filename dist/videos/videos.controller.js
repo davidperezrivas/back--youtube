@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VideosController = void 0;
 const common_1 = require("@nestjs/common");
@@ -18,23 +21,28 @@ let VideosController = class VideosController {
     }
     async searchVideo(busqueda) {
         try {
+            if (busqueda == '')
+                throw new Error('Texto a buscar es necesario');
             let listadoVideo = await this._videosService.obtenerVideo(busqueda);
             if (listadoVideo.estado != 200)
                 throw new Error('Error en la busqueda del video: ' + busqueda);
-            let arregloVideos = listadoVideo.response.map((video) => {
+            let listado = listadoVideo.response.map((video) => {
                 return {
                     titulo: video.snippet.title,
                     descripcion: video.snippet.description,
                     imagen: video.snippet.thumbnails.high.url,
                 };
             });
-            console.log(arregloVideos);
+            return { status: 200, message: listado };
         }
-        catch (error) { }
+        catch (error) {
+            return { status: 500, message: error.message };
+        }
     }
 };
 __decorate([
     (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)('busqueda')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
