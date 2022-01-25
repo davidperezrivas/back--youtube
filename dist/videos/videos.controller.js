@@ -26,14 +26,13 @@ let VideosController = class VideosController {
             let listadoVideo = await this._videosService.obtenerVideo(busqueda);
             if (listadoVideo.estado != 200)
                 throw new Error('Error en la busqueda del video: ' + busqueda);
-            let listado = listadoVideo.response.map((video) => {
+            return listadoVideo.response.map((video) => {
                 return {
                     titulo: video.snippet.title,
                     descripcion: video.snippet.description,
                     imagen: video.snippet.thumbnails.high.url,
                 };
             });
-            return { status: 200, message: listado };
         }
         catch (error) {
             return { status: 500, message: error.message };
